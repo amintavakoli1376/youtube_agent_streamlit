@@ -7,6 +7,11 @@ import ssl
 from telebot import telebot, types
 from sentence_transformers import SentenceTransformer
 from huggingface_hub import login
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
 import chromadb
 from chromadb.utils import embedding_functions
 from dotenv import load_dotenv
