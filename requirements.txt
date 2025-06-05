@@ -131,7 +131,6 @@ pypdf==5.4.0
 PyPika==0.48.9
 pyproject_hooks==1.2.0
 pyreadline3==3.5.4
-pysqlite3-binary
 pyTelegramBotAPI==4.26.0
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.0
@@ -159,7 +158,6 @@ starlette==0.45.3
 streamlit==1.45.1
 striprtf==0.0.26
 sympy==1.13.1
-telebot==0.0.5
 tenacity==9.1.2
 tensorboard==2.16.0
 tensorboard-data-server==0.7.2

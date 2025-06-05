@@ -28,7 +28,7 @@ GEMINI_API_TOKEN = os.getenv('GEMINI_API_TOKEN')
 
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, threaded=True, num_threads=4)
-chroma_client = chromadb.PersistentClient(path="./chromadb")
+chroma_client = chromadb.Client()
 
 labse_embedding_function  = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name='sentence-transformers/LaBSE'
@@ -41,31 +41,31 @@ collection = chroma_client.get_or_create_collection(
 )
 
 
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+# urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
-proxies = {
-    'http': os.getenv('HTTP_PROXY'),
-    'https': os.getenv('HTTP_PROXY')
-}
+# proxies = {
+#     'http': os.getenv('HTTP_PROXY'),
+#     'https': os.getenv('HTTP_PROXY')
+# }
 
-os.environ['HTTP_PROXY'] = proxies['http']
-os.environ['HTTPS_PROXY'] = proxies['https']
+# os.environ['HTTP_PROXY'] = proxies['http']
+# os.environ['HTTPS_PROXY'] = proxies['https']
 
-def _create_unverified_https_context():
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
+# def _create_unverified_https_context():
+#     try:
+#         _create_unverified_https_context = ssl._create_unverified_context
+#     except AttributeError:
+#         pass
+#     else:
+#         ssl._create_default_https_context = _create_unverified_https_context
 
-def configure_requests_with_proxy():
-    requests.Session().verify = False   
-    requests.Session().proxies.update(proxies)
+# def configure_requests_with_proxy():
+#     requests.Session().verify = False
+#     requests.Session().proxies.update(proxies)
 
 
-configure_requests_with_proxy()
-_create_unverified_https_context()
+# configure_requests_with_proxy()
+# _create_unverified_https_context()
 
 
 client = genai.Client(api_key=GEMINI_API_TOKEN)
