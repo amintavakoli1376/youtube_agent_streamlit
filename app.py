@@ -13,6 +13,7 @@ import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 import chromadb
+from chromadb.config import Settings # Added
 from chromadb.utils import embedding_functions
 from dotenv import load_dotenv
 import streamlit as st
@@ -28,7 +29,14 @@ GEMINI_API_TOKEN = os.getenv('GEMINI_API_TOKEN')
 
 
 bot = telebot.TeleBot(TELEGRAM_BOT_TOKEN, threaded=True, num_threads=4)
-chroma_client = chromadb.PersistentClient(path="./chromadb")
+
+# Initialize ChromaDB client with explicit pysqlite3 settings
+client_settings = Settings()
+client_settings.sqlite_impl = "pysqlite3"
+client_settings.is_persistent = True
+client_settings.persist_directory = "./chromadb" # Ensure this path is correct for your deployment
+
+chroma_client = chromadb.PersistentClient(settings=client_settings) # Modified
 
 labse_embedding_function  = embedding_functions.SentenceTransformerEmbeddingFunction(
     model_name='sentence-transformers/LaBSE'
