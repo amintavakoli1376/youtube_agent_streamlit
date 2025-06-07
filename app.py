@@ -8,9 +8,17 @@ from telebot import telebot, types
 from sentence_transformers import SentenceTransformer
 from huggingface_hub import login
 
-__import__('pysqlite3')
 import sys
-sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+try:
+    __import__('pysqlite3')
+    if 'pysqlite3' in sys.modules:
+        sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+        print("INFO: Successfully swapped sqlite3 with pysqlite3.")
+    else:
+        print("WARNING: pysqlite3 was imported but not found in sys.modules. Skipping swap.")
+except ImportError:
+    print("WARNING: pysqlite3 could not be imported. Using system's default sqlite3.")
 
 import chromadb
 from chromadb.utils import embedding_functions
